@@ -90,6 +90,8 @@ class HttpApi(HttpApiBase):
             data = "username=" + urllib.parse.quote(username) + "&secretkey=" + urllib.parse.quote(password) + "&ajax=1"
             # /logincheck returns a text regardless of the accept header
             dummy, result_data = self.send_request(url='/logincheck', data=data, method='POST')
+            self.log('login found a banner')
+            dummy, result_data = self.send_request(url='/logindisclaimer?confirm=1&redir=%2Fng%2F', data=data, method='POST')
             result_json = json.loads(result_data)
             self.log('login with user: %s %s' % (username, 'succeeds' if result_json['text'][0] == '1' else 'fails'))
             if result_json['text'][0] != '1':
